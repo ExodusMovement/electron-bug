@@ -57,11 +57,14 @@ app.on('browser-window-created', (event, browserWindow) => {
   browserWindow.on('close', event => {
     event.preventDefault()
     setTimeout(browserWindow.hide.bind(browserWindow), 250)
+
+    // trigger 'before-quit'
+    setTimeout(() => app.quit(), 1000)
   })
 })
 
 app.on('before-quit', function () {
-  setTimeout(() => BrowserWindow.getAllWindows().forEach(bw => bw.destroy()), 5000)
+  BrowserWindow.getAllWindows().forEach(bw => bw.destroy())
   setImmediate(app.exit.bind(app))
 })
 // In this file you can include the rest of your app's specific main process
